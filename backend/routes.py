@@ -1,30 +1,75 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request, jsonify
 from models import db, Tarefa, Usuario
 from werkzeug.security import generate_password_hash, check_password_hash
-from functools import wraps
 
-api = Blueprint('api', __name__)
+tarefa_bp = Blueprint('tarefa_bp', __name__)
+usuario_bp = Blueprint('usuario_bp', __name__)
 
-# Rotas para CRUD de Tarefas
-@api.route('/tarefas', methods=['POST'])
-def criar_tarefa():
-    dados = request.json
-    nova_tarefa = Tarefa(titulo=dados['titulo'], descricao=dados['descricao'])
+# Rotas de Tarefas
+@tarefa_bp.route('/', methods=['GET'])
+def home():
+    return jsonify({'message': 'API de Gerenciamento de Tarefas'}), 200
+
+@tarefa_bp.route('/tarefas', methods=['GET'])
+def get_tarefas():
+    tarefas = Tarefa.query.all()
+    return jsonify([tarefa.as_dict() for tarefa in tarefas])
+
+@tarefa_bp.route('/tarefa', methods=['POST'])
+def create_tarefa():
+    data = request.get_json()
+    nova_tarefa = Tarefa(
+        titulo=data['titulo'],
+        descricao=data.get('descricao', ''),
+        status=data.get('status', 'pendente')
+    )
     db.session.add(nova_tarefa)
     db.session.commit()
-    return jsonify({'mensagem': 'Tarefa criada com sucesso'}), 201
+    return jsonify(nova_tarefa.as_dict()), 201
 
-@api.route('/tarefas', methods=['GET'])
-def listar_tarefas():
-    tarefas = Tarefa.query.all()
-    return jsonify([{'id': t.id, 'titulo': t.titulo, 'descricao': t.descricao, 'status': t.status, 'data_criacao': t.data_criacao} for t in tarefas])
+@tarefa_bp.route('/tarefa/<int:id>', methods=['PUT'])
+def update_tarefa(id):
+    data = request.get_json()
+    tarefa = Tarefa.query.get(id)
+    if tarefa is None:
+        return jsonify({'error': 'Tarefa não encontrada'}), 404
 
-# Rotas de Autenticação e Usuários
-@api.route('/usuarios', methods=['POST'])
-def criar_usuario():
-    dados = request.json
-    senha_hash = generate_password_hash(dados['senha'])
-    novo_usuario = Usuario(nome=dados['nome'], email=dados['email'], senha=senha_hash)
+    tarefa.titulo = data['titulo']
+    tarefa.descricao = data.get('descricao', tarefa.descricao)
+    tarefa.status = data.get('status', tarefa.status)
+    db.session.commit()
+    return jsonify(tarefa.as_dict())
+
+@tarefa_bp.route('/tarefa/<int:id>', methods=['DELETE'])
+def delete_tarefa(id):
+    tarefa = Tarefa.query.get(id)
+    if tarefa is None:
+        return jsonify({'error': 'Tarefa não encontrada'}), 404
+
+    db.session.delete(tarefa)
+    db.session.commit()
+    return '', 204
+
+# Rotas de Usuários
+@usuario_bp.route('/usuarios', methods=['POST'])
+def create_usuario():
+    data = request.get_json()
+    hashed_password = generate_password_hash(data['senha'], method='sha256')
+    novo_usuario = Usuario(
+        nome=data['nome'],
+        email=data['email'],
+        senha=hashed_password
+    )
     db.session.add(novo_usuario)
     db.session.commit()
-    return jsonify({'mensagem': 'Usuário criado com sucesso'}), 201
+    return jsonify(novo_usuario.as_dict()), 201
+
+@usuario_bp.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    usuario = Usuario.query.filter_by(email=data['email']).first()
+
+    if usuario and check_password_hash(usuario.senha, data['senha']):
+        return jsonify({'message': 'Login realizado com sucesso!'}), 200
+    else:
+        return jsonify({'error': 'Credenciais inválidas'}), 401
