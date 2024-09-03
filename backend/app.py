@@ -11,8 +11,8 @@ app.config.from_object(Config)
 
 db.init_app(app)
 
-app.register_blueprint(tarefa_bp, url_prefix='/api')
-app.register_blueprint(usuario_bp, url_prefix='/api')
+app.register_blueprint(tarefa_bp, url_prefix='/')
+app.register_blueprint(usuario_bp, url_prefix='/')
 
 if __name__ == '__main__':
     with app.app_context():
