@@ -5,10 +5,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 tarefa_bp = Blueprint('tarefa_bp', __name__)
 usuario_bp = Blueprint('usuario_bp', __name__)
 
-# Rotas de Tarefas
-@tarefa_bp.route('/', methods=['GET'])
-def home():
-    return jsonify({'message': 'API de Gerenciamento de Tarefas'}), 200
 
 @tarefa_bp.route('/tarefas', methods=['GET'])
 def get_tarefas():

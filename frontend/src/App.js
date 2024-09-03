@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Form from './components/Form';
 import List from './components/List';
-import Forms from './components/Forms';
 
 function App() {
+  const [editingTarefa, setEditingTarefa] = useState(null);
+
+  function handleEdit(tarefa) {
+    setEditingTarefa(tarefa);
+  }
+
+  function handleSave() {
+    setEditingTarefa(null);
+  }
+
   return (
     <div>
-      <h1>Gerenciamento de Projetos</h1>
-      <List />
-      <Forms />
+      <h1>Gerenciamento de Tarefas</h1>
+      <Form editingTarefa={editingTarefa} onSave={handleSave} />
+      <List onEdit={handleEdit} />
     </div>
   );
 }
