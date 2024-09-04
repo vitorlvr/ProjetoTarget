@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Login.css'; // Certifique-se de criar este arquivo CSS
 
 function Login({ onLogin }) {
   const [email, setEmail] = useState('');
@@ -18,25 +19,29 @@ function Login({ onLogin }) {
 
   return (
     <div className="login-container">
-      <form onSubmit={handleSubmit} className="login-form">
-        <h2>Login</h2>
+      <div className="login-card">
+        <h2 className="login-title">Bem-vindo ao sistema Target</h2>
         {error && <p className="error-message">{error}</p>}
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Senha"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
-          required
-        />
-        <button type="submit">Entrar</button>
-      </form>
+        <form onSubmit={handleSubmit} className="login-form">
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="login-input"
+          />
+          <input
+            type="password"
+            placeholder="Senha"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+            required
+            className="login-input"
+          />
+          <button type="submit" className="login-button">Entrar</button>
+        </form>
+      </div>
     </div>
   );
 }

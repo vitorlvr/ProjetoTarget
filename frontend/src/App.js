@@ -3,10 +3,12 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Form from './components/Form';
 import List from './components/List';
 import Login from './components/Login';
+import './App.css';
 
 function App() {
   const [editingTarefa, setEditingTarefa] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0); // Chave para forçar atualização
 
   function handleEdit(tarefa) {
     setEditingTarefa(tarefa);
@@ -14,6 +16,8 @@ function App() {
 
   function handleSave() {
     setEditingTarefa(null);
+    // Atualiza a lista de tarefas ao salvar
+    setReloadKey(prevKey => prevKey + 1);
   }
 
   function handleLogin() {
@@ -26,26 +30,30 @@ function App() {
 
   return (
     <Router>
-      <div>
-        <h1>Gerenciamento de Tarefas</h1>
+      <div className="app-container">
         <Routes>
-          <Route 
-            path="/" 
-            element={isAuthenticated ? <Navigate to="/tarefas" /> : <Login onLogin={handleLogin} />} 
-          />
-          <Route 
-            path="/tarefas" 
+          <Route
+            path="/"
             element={
               isAuthenticated ? (
-                <div>
-                  <button onClick={handleLogout}>Logout</button>
+                <Navigate to="/tarefas" />
+              ) : (
+                <Login onLogin={handleLogin} />
+              )
+            }
+          />
+          <Route
+            path="/tarefas"
+            element={
+              isAuthenticated ? (
+                <div className="tarefas-container">
                   <Form editingTarefa={editingTarefa} onSave={handleSave} />
-                  <List onEdit={handleEdit} />
+                  <List key={reloadKey} onEdit={handleEdit} />
                 </div>
               ) : (
                 <Navigate to="/" />
               )
-            } 
+            }
           />
         </Routes>
       </div>

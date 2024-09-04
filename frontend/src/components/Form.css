@@ -1,0 +1,72 @@
+/* Form.css */
+.form-container {
+    margin: 0 auto;
+    max-width: 800px; /* Aumentei a largura máxima para acomodar campos lado a lado */
+    padding: 1rem;
+}
+
+.form {
+    display: flex;
+    flex-wrap: wrap; /* Permite que os itens que não cabem na linha sejam movidos para a linha seguinte */
+    gap: 1rem; /* Espaço entre os campos */
+}
+
+/* Container dos campos de entrada */
+.input-group {
+    flex: 1 1 calc(50% - 1rem); /* Ajusta a largura dos campos para ocupar metade da linha, com espaço para o gap */
+    min-width: 200px; /* Largura mínima para campos */
+}
+
+.input-group input[type="text"],
+.input-group textarea,
+.input-group select {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+/* Ajusta o foco nos campos */
+.input-group input[type="text"]:focus,
+.input-group textarea:focus,
+.input-group select:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Botão */
+button {
+    padding: 0.75rem;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex: 1 1 100%; /* Faz o botão ocupar toda a largura disponível */
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Mensagens de erro e sucesso */
+.error-message {
+    color: #FF4B4B;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.success-message {
+    color: #4CAF50;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
