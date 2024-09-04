@@ -3,11 +3,11 @@
 Projeto desenvolvido para o processo seletivo de estágio na empresa Target Solutions. Este sistema de gerenciamento de tarefas permite a criação, visualização, edição e exclusão de tarefas usando um frontend em React, um backend em Flask e o banco de dados utilizando SQLAlchemy.
 
 ## Requisitos
-==========
+
 Para esse projeto, é necessário ter o Node.js instalado para o frontend (utilizei a versão 20.14.0) e Python 3.12.3 ou superior com Flask para o backend.
 
 ## Para Executar
-=============
+
 ### Backend
 
 1. Navegue até o diretório do backend.
@@ -42,7 +42,7 @@ Para esse projeto, é necessário ter o Node.js instalado para o frontend (utili
 
 
 ## Decisões Tomadas
-===================
+
 - **API REST**: Optou-se por utilizar uma API REST para garantir uma comunicação clara e eficiente entre o frontend e o backend.
 
 - **Frontend com React**: O React foi escolhido para o desenvolvimento do frontend devido à sua capacidade de criar interfaces de usuário dinâmicas.
