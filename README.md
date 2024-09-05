@@ -48,3 +48,5 @@ Para esse projeto, é necessário ter o Node.js instalado para o frontend (utili
 - **Frontend com React**: O React foi escolhido para o desenvolvimento do frontend devido à sua capacidade de criar interfaces de usuário dinâmicas.
 
 - **Backend com Flask e SQLAlchemy**: Flask foi escolhido para o backend por ser leve e fácil de usar. Ele é um microframework em Python que facilita a criação rápida de APIs RESTful. Para gerenciar o banco de dados, utilizei o SQLAlchemy. Ele simplifica a interação com o banco de dados, permitindo que trabalhe com dados usando objetos Python em vez de escrever muito código SQL.
+
+- **Integração com Docker**: Para facilitar o ambiente de desenvolvimento e garantir que o sistema funcione em qualquer máquina, foi utilizado o Docker. Cada componente (frontend e backend) está contêinerizado, permitindo que sejam executados de maneira independente e isolada. O Docker Compose foi utilizado para orquestrar ambos os serviços, assegurando uma configuração simples e padronizada para a execução do projeto.
