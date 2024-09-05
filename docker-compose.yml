@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./backend  # Caminho para o diretório do backend
+    ports:
+      - "5000:5000"  # Mapeando a porta 5000 para o Flask
+    environment:
+      FLASK_ENV: development
+    volumes:
+      - ./backend:/app  # Mapeando o diretório para atualizações em tempo real
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend  # Caminho para o diretório do frontend
+    ports:
+      - "3000:3000"  # Mapeando a porta 3000 para o React
+    volumes:
+      - ./frontend:/app  # Mapeando o diretório para atualizações em tempo real
+    depends_on:
+      - backend  # O frontend depende do backend estar rodando
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
